@@ -1,0 +1,249 @@
+/**
+ * Minesweeper Game.
+ *
+ * App's CSS styling.
+ *
+ * September 06, 2022 by Marcio Reis Jr.
+ */
+
+/* Reset code */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Common use variables */
+:root {
+    --font-selection: cursive, sans-serif, serif;
+    --theme-border-radius: 8px;
+    --theme-primary-color: #E4AA2F;
+    --theme-primary-color-dark: #C68F19;
+    --form-background: rgba(255, 255, 255, 0.35);
+    --cell-success-color: limegreen;
+    --cell-danger-color: orangered;
+    --font-size-for-extra-small: 0.8rem;
+    --theme-box-shadow: black 2px 2px 10px;
+}
+
+/**
+ **  Login Page
+ **/
+/* App's body styling */
+body {
+    font-family: var(--font-selection);
+    border-radius: var(--theme-border-radius);
+    min-height: 100vh;
+}
+
+#current_user {
+    display: none;
+}
+
+#gameBody {
+    background-color: var(--theme-primary-color);
+    background: radial-gradient(circle at top center,
+        var(--theme-primary-color), var(--theme-primary-color-dark));
+}
+
+#loginBody {
+    background: url('#') no-repeat;
+    background-size: cover;
+}
+
+#gameBody:after {
+    /* background setup - Provides transparency to an opaque image */
+    content : "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url("../images/flag.png"),
+                      url("../images/mine.png"),
+                      url("../images/water.png");
+    background-repeat: no-repeat,
+                       no-repeat,
+                       no-repeat;
+    background-position: center left,
+                         center right,
+                         bottom center;
+    background-size: 40%, 40%, 30%;
+    width: 100%;
+    height: 100%;
+    opacity : 0.1;
+    z-index: -1;
+}
+
+/**
+ **  Game Page
+ **/
+.title {
+    text-align: center;
+    text-shadow: 1px 1px 5px #555;
+}
+
+.subTitle {
+    background: var(--form-background);
+    border-radius: var(--theme-border-radius);
+    padding: 1rem;
+}
+
+/* Info banner */
+#time-counter {
+    min-width: 4rem;
+}
+
+#nick-id {
+    white-space: nowrap;
+}
+
+/* Board cells and its respective media query */
+.cell-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.4em;
+    width: 2.4em;
+    border-radius: var(--theme-border-radius);
+    padding: 0;
+}
+
+.cell-button:hover {
+    background-color: rgb(239, 239, 239); /* fallback for older browsers */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cell-button.text-danger {
+    background-color: var(--cell-danger-color);
+    color: black !important;
+}
+
+.cell-button.text-success {
+    background-color: var(--cell-success-color);
+    color: black !important;
+}
+
+.number {
+    font-family: var(--font-selection);
+}
+
+.mine {
+    content: url('../images/mine.png');
+}
+
+.water {
+    content: url('../images/water.png');
+}
+
+.flag {
+    content: url('../images/flag.png');
+}
+
+tbody {
+    box-shadow: var(--theme-box-shadow);
+    padding: 5px;
+}
+
+/* App's buttons and global styling */
+#dropdown-menu {
+    border: 1px solid black;
+    background-color: rgb(179, 184, 74); /* fallback for older browsers */
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#desktop-help-id,
+#mobile-help-id {
+    display: none;
+    width: fit-content;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: var(--theme-border-radius);
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    box-shadow: var(--theme-box-shadow);
+}
+
+#desktop-help-id:active,
+#mobile-help-id:active {
+    box-shadow: none;
+}
+
+#desktop-help-id p,
+#mobile-help-id p {
+    margin: 0;
+}
+
+@media screen and (max-width: 400px) {
+    /* Adjust game cells for small screens */
+    .cell-button {
+        height: 1.8em;
+        width: 1.8em;
+    }
+}
+
+@media screen and (max-width: 290px) {
+    /* adjust features and options to extra small screens */
+    .bar-button {
+        font-size: var(--font-size-for-extra-small);
+    }
+    #help-text-id::after,
+    #help-text-id.sticky::after {
+        font-size: var(--font-size-for-extra-small);
+    }
+    .too-small-2-play {
+        display: none;
+    }
+}
+
+#user-form-id {
+    border-radius: var(--theme-border-radius);
+    background-color: var(--form-background);
+}
+
+.space-to-info {
+    margin-right: 0.5em;
+}
+
+.back-to-registration {
+    text-decoration: none;
+    color: black;
+}
+
+.back-to-registration:hover {
+    text-decoration: none;
+    color: black;
+}
+
+/* Modal styling */
+.modal-bg {
+    background-color: rgb(230, 230, 230);
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+/* Initial opacity for the fade in effect */
+.initially-out {
+    opacity: 0;
+}
+
+/* Common styling for the App's control buttons */
+.btn-std-color {
+    background-image: linear-gradient(to bottom, #9AA6B1, #424D56);
+    color: white;
+}
+
+.btn-std-color:hover {
+    background-image: linear-gradient(to bottom, #A8B3BC, #4D5A64);
+}
+
+.btn-std-color:active {
+    background-image: linear-gradient(to bottom, #4D5A64, #A8B3BC);
+}
+
+.gray-group {
+    background-color: #00000017;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.shareHighlight:hover {
+    color: var(--theme-primary-color);
+}
