@@ -6,7 +6,7 @@
  * September 06, 2022 by Marcio Reis Jr.
  */
 
-const BACK_TO_REG_URL = "../../index.html";
+const BACK_TO_REG_URL = "/accounts/logout";
 const DEFAULT_BOARD_SIZE = 7;
 const MAX_VISIBLE_NICK_LEN = 10;
 const getTemplate = tmplName => document.querySelector(tmplName).innerHTML;
