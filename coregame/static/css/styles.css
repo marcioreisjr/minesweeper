@@ -36,6 +36,11 @@ body {
     min-height: 100vh;
 }
 
+.game-form {
+    box-shadow: black 2px 2px 10px;
+    padding: 1rem;
+}
+
 #current_user {
     display: none;
 }
@@ -232,6 +237,7 @@ tbody {
 
 .btn-std-color:hover {
     background-image: linear-gradient(to bottom, #A8B3BC, #4D5A64);
+    color: white;
 }
 
 .btn-std-color:active {
