@@ -3,9 +3,9 @@
 
 {% block header %}
 <div class="row">
-    <div class="col"></div>
-    <div class="col h1 mb-1 mb-lg-5 title">Minesweeper Login</div>
-    <div class="col d-flex justify-content-end">
+    <div class="col-lg"></div>
+    <div class="col-lg h1 mb-1 mb-lg-5 title">Minesweeper Login</div>
+    <div class="col-lg d-flex justify-content-end my-4">
         <div>
             <a class="btn border border-light btn-std-color" href="{% url 'signup' %}">Sign Up</a>
         </div>
@@ -28,6 +28,9 @@
             <button class="btn border border-light btn-std-color">Login</button>
         </div>
     </form>
-
 </div>
 {% endblock main %}
+
+{% block scriptblock %}
+<script src="{% static 'js/logreg.js' %}" type="text/javascript"></script>
+{% endblock scriptblock %}
