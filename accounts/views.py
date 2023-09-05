@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from accounts.forms import LoginForm, SignUpForm
 from django.contrib.auth.models import User
@@ -57,3 +58,11 @@ def user_signup(request):
         "form": form,
     }
     return render(request, "accounts/signup.html", context)
+
+
+@login_required
+def user_delete(request):
+    if request.method == "POST":
+        request.user.delete()
+        return redirect("signup")
+    return render(request, "accounts/delete.html", None)

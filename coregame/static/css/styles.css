@@ -36,10 +36,19 @@ body {
     min-height: 100vh;
 }
 
+.link-btn,
 nav a {
     text-decoration: none;
     color: white;
 }
+
+.link-btn:hover {
+    text-decoration: none;
+    color: white;
+    background-color: transparent;
+
+}
+
 nav a:hover {
     text-decoration: none;
     color: white;
