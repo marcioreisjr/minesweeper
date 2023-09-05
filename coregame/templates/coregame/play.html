@@ -12,7 +12,7 @@ September 06, 2022 by Marcio Reis Jr.
 {% block navbar %}
 <div class="d-flex justify-items-start">
     <div class="ml-3"><a href="{% url 'logout' %}">Logout</a></div>
-    <div class="ml-3"><a href="#">Change password</a></div>
+    <div class="ml-3"><a href="{% url 'user_change_pwd' %}">Change password</a></div>
     <div class="ml-3"><a href="{% url 'delete' %}">Delete the player</a></div>
 </div>
 {% endblock navbar %}

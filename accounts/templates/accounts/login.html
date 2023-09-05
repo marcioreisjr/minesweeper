@@ -24,13 +24,6 @@
         <div class="form-group">
             {{ form.password }}
         </div>
-        {% if form.errors %}
-        {% for err in form.errors %}
-        <div class="alert alert-danger">
-            {{ form.errors|striptags }}
-        </div>
-        {% endfor %}
-        {% endif %}
         <div class="form-group">
             <button class="btn border border-light btn-std-color">Login</button>
         </div>

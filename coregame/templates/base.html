@@ -31,6 +31,14 @@ September 06, 2022 by Marcio Reis Jr.
             {% block navbar %}
             {% endblock navbar %}
         </nav>
+        {% if show_badge %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ show_badge.msg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true" class="far fa-window-close"></span>
+            </button>
+        </div>
+        {% endif %}
         <header>
             {% block header %}
             {% endblock header %}
@@ -86,7 +94,8 @@ September 06, 2022 by Marcio Reis Jr.
         <template id="shareModalBody">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <a class="d-flex flex-column align-items-center" href="https://marcioreisjr.github.io/minesweeper">
-                    <img src="{% static 'images/qr_share.png' %}" width="50%" height="50%" alt="QR Code for the Sharing link">
+                    <img src="{% static 'images/qr_share.png' %}" width="50%" height="50%"
+                        alt="QR Code for the Sharing link">
                     <p>https://marcioreisjr.github.io/minesweeper</p>
                 </a>
             </div>
