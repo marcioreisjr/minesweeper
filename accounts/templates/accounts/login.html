@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block navbar %}
+<div class="d-flex justify-items-end">
+    <div class="ml-3"><a href="{% url 'signup' %}">Sign Up</a></div>
+</div>
+{% endblock navbar %}
+
 {% block header %}
 <div class="row">
-    <div class="col-lg"></div>
-    <div class="col-lg h1 mb-1 mb-lg-5 title">Minesweeper Login</div>
-    <div class="col-lg d-flex justify-content-end my-4">
-        <div>
-            <a class="btn border border-light btn-std-color" href="{% url 'signup' %}">Sign Up</a>
-        </div>
-    </div>
+    <div class="col h1 my-5 title">Minesweeper Login</div>
 </div>
 {% endblock header %}
 
@@ -24,6 +24,13 @@
         <div class="form-group">
             {{ form.password }}
         </div>
+        {% if form.errors %}
+        {% for err in form.errors %}
+        <div class="alert alert-danger">
+            {{ form.errors|striptags }}
+        </div>
+        {% endfor %}
+        {% endif %}
         <div class="form-group">
             <button class="btn border border-light btn-std-color">Login</button>
         </div>

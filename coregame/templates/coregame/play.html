@@ -9,8 +9,20 @@ September 06, 2022 by Marcio Reis Jr.
 
 {% load static %}
 
+{% block navbar %}
+<div class="d-flex justify-items-start">
+    <div class="ml-3"><a href="{% url 'logout' %}">Logout</a></div>
+    <div class="ml-3"><a href="#"></a>Change password</div>
+    <div class="ml-3"><a href="#"></a>Remove player</div>
+</div>
+{% endblock navbar %}
+
 {% block header %}
-<div class="h1 mb-1 mb-lg-5 title">Minesweeper</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col h1 my-1 my-lg-2 title align-items-center">Minesweeper</div>
+    <div class="col d-flex justify-content-end my-4"></div>
+</div>
 {% endblock header %}
 
 {% block main %}
@@ -77,11 +89,6 @@ September 06, 2022 by Marcio Reis Jr.
         <button id="mobile-help-id" class="btn platModeBtn">
             <p class="platModeBtn">Double-tap on a cell to reveal it</p>
             <p class="platModeBtn">~ Mobile Mode ~</p>
-        </button>
-        <button id="back-to-reg-id" type="button" class="btn border border-light btn-std-color">
-            <span class="back-to-registration text-light" id="back-to-reg-btn-id">
-                logout
-            </span>
         </button>
     </div>
 </div>

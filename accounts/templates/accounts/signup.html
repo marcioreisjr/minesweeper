@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block navbar %}
+<div class="d-flex justify-items-end">
+    <div class="ml-3"><a href="{% url 'login' %}">Login</a></div>
+</div>
+{% endblock navbar %}
+
 {% block header %}
 <div class="row">
-    <div class="col-lg"></div>
-    <div class="col-lg h1 mb-1 mb-lg-5 title">Minesweeper Sign up</div>
-    <div class="col-lg d-flex justify-content-end my-4">
-        <div>
-            <a class="btn border border-light btn-std-color" href="{% url 'login' %}">Login</a>
-        </div>
-    </div>
+    <div class="col h1 my-5 title">Minesweeper Sign up</div>
 </div>
 {% endblock header %}
 

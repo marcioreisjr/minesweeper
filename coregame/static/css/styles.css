@@ -36,8 +36,18 @@ body {
     min-height: 100vh;
 }
 
+nav a {
+    text-decoration: none;
+    color: white;
+}
+nav a:hover {
+    text-decoration: none;
+    color: white;
+    background-color: darkgrey;
+}
+
 .game-form {
-    box-shadow: black 2px 2px 10px;
+    box-shadow: black 0 0 10px;
     padding: 1rem;
 }
 
