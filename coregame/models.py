@@ -10,3 +10,5 @@ class GameScoring(models.Model):
         related_name="scoring",
         on_delete=models.CASCADE,
     )
+    timing = models.PositiveIntegerField(null=True)
+    board_size = models.PositiveSmallIntegerField(null=True)
