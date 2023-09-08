@@ -11,11 +11,12 @@ const DEFAULT_BOARD_SIZE = 7;
 const MAX_VISIBLE_NICK_LEN = 10;
 const getTemplate = tmplName => document.querySelector(tmplName).innerHTML;
 
+const gameHost = 'http://127.0.0.1:8000'
 
 
- /**
- * Class to keep track of the leaderboard and saving to a local storage.
- */
+/**
+* Class to keep track of the leaderboard and saving to a local storage.
+*/
 class LeaderBoard {
     /**
      * Builds a new instance of LeaderBoard and load it from the database.
@@ -49,8 +50,10 @@ class LeaderBoard {
             { min: 99999, sec: 99999 };
         if (this.leaderList[newSize] === undefined || newMin < min ||
             (newMin == min && newSec < sec)) {
-            this.leaderList[newSize] = { min: newMin, sec: newSec,
-                nick: nick };
+            this.leaderList[newSize] = {
+                min: newMin, sec: newSec,
+                nick: nick
+            };
             this.save_();
             this.hasItems = true;
             return true;
@@ -64,8 +67,26 @@ class LeaderBoard {
      * Save the database to the browser storage.
      */
     save_() {
-        const str = JSON.stringify(this.leaderList);
-        localStorage.setItem(this.dbName, str);
+    }
+
+    fetchScores(callback) {
+        fetch(gameHost + '/coregame/get_scores', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Process the retrieved data
+                console.log(data);
+                callback(null, data)
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error(error);
+                callback(error, null)
+            });
     }
 
     /**
@@ -95,8 +116,7 @@ class LeaderBoard {
         for (let ii in this.leaderList) { sizes.push(ii); }
         sizes.sort((a, b) => parseInt(a) - parseInt(b));
         for (let ii of sizes) {
-            yield `Board size - ${ii}x${ii}: ${this.leaderList[ii].min}:${
-                this.leaderList[ii].sec.toString()
+            yield `Board size - ${ii}x${ii}: ${this.leaderList[ii].min}:${this.leaderList[ii].sec.toString()
                 .padStart(2, '0')} min. by ${this.leaderList[ii].nick}`;
         }
     }
@@ -247,16 +267,24 @@ function userNotification(result, size, mines, time) {
  */
 function showLeaderboard() {
     let msg;
-    if (appData.leaderboard.hasItems) {
-        msg = "<p>";
-        for (let item of appData.leaderboard.strIterator()) {
-            msg += `<h5>${item}</h5>`;
+    appData.leaderboard.fetchScores((err, data) => {
+        if (err) {
+            msg = getTemplate(`<h5>{err}</h5>`);
+        } else if (!data.length) {
+            msg = getTemplate('#be1StWinner');
+        } else {
+            msg = "<p>";
+            for (let item of data) {
+                const bs = item.board_size;
+                const pl = item.player;
+                const tm = `${Math.floor(item.timing / 60)}:${(
+                    item.timing % 60).toString().padStart(2, "0")}`;
+                msg += `<h5>Board size - ${bs}x${bs}: ${tm} min. by ${pl}</h5>`;
+            }
+            msg += '</p>';
         }
-        msg += '</p>';
-    } else {
-        msg = getTemplate('#be1StWinner');
-    }
-    popModalUp(getTemplate('#leaderboardTitle'), msg);
+        popModalUp(getTemplate('#leaderboardTitle'), msg);
+    });
 }
 
 /**
@@ -265,7 +293,7 @@ function showLeaderboard() {
 function showRules() {
     const rules = document.querySelector("#rulesTmpl").content;
     popModalUp(rules.querySelector('#header').innerHTML,
-               rules.querySelector('#body').innerHTML);
+        rules.querySelector('#body').innerHTML);
 }
 
 /**
@@ -291,7 +319,7 @@ function popModalUp(title, msg) {
 function handleOwnEvents(event) {
     const type = event.type;
 
-    switch(type) {
+    switch (type) {
         // switch between help text and back-to-reg button
         case 'minesweeperrunning':
             appData.$backToReg.hide();
@@ -299,9 +327,9 @@ function handleOwnEvents(event) {
             activateHelpButtons();
             return true;
         case 'minesweeperstart':
-            // fall through
+        // fall through
         case 'minesweeperwin':
-            // fall through
+        // fall through
         case 'minesweeperlose':
             appData.$backToReg.show();
             appData.playing = false;
@@ -315,7 +343,7 @@ function handleOwnEvents(event) {
  * Run all the animations and move to the registration URL.
  */
 function backToReg() {
-    appData.$fadeElements.animate({opacity: 0}, () => {
+    appData.$fadeElements.animate({ opacity: 0 }, () => {
         location.href = BACK_TO_REG_URL;
     });
 }
@@ -352,8 +380,8 @@ function activateHelpButtons() {
 $(function () {
     // Instantiate the core code of the game
     const dbName = 'MinesweeperSettings';
-    appData.minesweeper = new Minesweeper(DEFAULT_BOARD_SIZE,{
-        evListenerElement : document.querySelector('#main-div'),
+    appData.minesweeper = new Minesweeper(DEFAULT_BOARD_SIZE, {
+        evListenerElement: document.querySelector('#main-div'),
         boardBody: document.querySelector('#board-body'),
         timerDisplay: document.querySelector('#time-counter'),
         minesDisplay: document.querySelector('#mines-counter'),
@@ -378,7 +406,7 @@ $(function () {
                 getTemplate("#shareModalBody"));
         }
         else if (target.id === 'back-to-reg-id' ||
-                 target.id === 'back-to-reg-btn-id') {
+            target.id === 'back-to-reg-btn-id') {
             event.preventDefault();
             backToReg();
         }
