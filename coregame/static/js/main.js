@@ -10,26 +10,21 @@ const BACK_TO_REG_URL = "/accounts/logout";
 const DEFAULT_BOARD_SIZE = 7;
 const MAX_VISIBLE_NICK_LEN = 10;
 const getTemplate = tmplName => document.querySelector(tmplName).innerHTML;
-
-const gameHost = 'http://127.0.0.1:8000'
-
+const GAMEHOST = `http://${window.location.host}`;
 
 /**
 * Class to keep track of the leaderboard and saving to a local storage.
 */
 class LeaderBoard {
     /**
-     * Builds a new instance of LeaderBoard and load it from the database.
+     * Builds a new instance of LeaderBoard.
+     *
+     * @param {String} host - Hostname to read the leaderboard from.
      */
-    constructor() {
-        this.hasItems = false;
-        this.dbName = 'MinesweeperLeaderBoard';
-        this.leaderList = {};
-        const leaderBoard = localStorage.getItem(this.dbName);
-        if (leaderBoard !== null) {
-            this.leaderList = JSON.parse(leaderBoard);
-            this.hasItems = true;
-        }
+    constructor(host) {
+        this.host = host;
+        this.getApiPath = 'coregame/get_scores';
+        this.setApiPath = 'coregame/set_score';
     }
 
     /**
@@ -38,39 +33,19 @@ class LeaderBoard {
      * @param {Number} size - Size of the board.
      * @param {Number} min - Minutes to solve the puzzle.
      * @param {Number} sec - Seconds to solve the puzzle.
-     * @returns 'true' if provided record beat the stored one and it is now the
-     *          best score or 'false' if the provided score does NOT beat the
-     *          stored one. It is discarded.
+     * @param {String} nick - Player's nickname.
+     * @param {Function} callback - Callback to process the return data,
+     *  modeled as: { err: "Error message", accepted: Boolean }
+     *  If accepted is true, then the score (timming) broke a record and went to
+     *  the leaderbord, otherwise it returns false.
      */
-    setScore(size, minutes, seconds, nick = '') {
-        const newSize = parseInt(size);
-        const newMin = parseInt(minutes);
-        const newSec = parseInt(seconds);
-        const { min, sec } = this.leaderList[newSize] ||
-            { min: 99999, sec: 99999 };
-        if (this.leaderList[newSize] === undefined || newMin < min ||
-            (newMin == min && newSec < sec)) {
-            this.leaderList[newSize] = {
-                min: newMin, sec: newSec,
-                nick: nick
-            };
-            this.save_();
-            this.hasItems = true;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Private method.
-     *
-     * Save the database to the browser storage.
-     */
-    save_() {
-    }
-
-    fetchScores(callback) {
-        fetch(gameHost + '/coregame/get_scores', {
+    setScore(size, minutes, seconds, nick, callback) {
+        const jData = JSON.stringify({
+            board_size: parseInt(size),
+            player: nick,
+            timing: (parseInt(minutes) * 60) + parseInt(seconds)
+        })
+        fetch(`${this.host}/${this.setApiPath}/${jData}/`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,46 +54,40 @@ class LeaderBoard {
             .then(response => response.json())
             .then(data => {
                 // Process the retrieved data
-                console.log(data);
                 callback(null, data)
             })
             .catch(error => {
                 // Handle any errors
-                console.error(error);
                 callback(error, null)
             });
     }
 
     /**
-     * Iterator that provide objects containing the information from the
-     * database.
+     * Read current leaderboard from the game host system.
      *
-     * @returns {Object} - {size: {Number}, min: {Number}, sec: {Number}}.
+     * @param {Function} callback to handle the result. The arguments are
+     *  (err, data[]):
+     *      err (String): Error message ot Null
+     *      data[].board_size: Board size to which this data relates to.
+     *      data[].player: Player username (Nickname)
+     *      datat[]timing: Duration in seconds to complete the game.
      */
-    *[Symbol.iterator]() {
-        const sizes = [];
-        for (let ii in this.leaderList) { sizes.push(ii); }
-        sizes.sort((a, b) => parseInt(a) - parseInt(b));
-        for (let ii of sizes) {
-            const { min, sec, nick } = this.leaderList[ii];
-            yield { size: ii, min, sec, nick };
-        }
-    }
-
-    /**
-     * Iterator that provide strings containing information from each of
-     * records of the database.
-     *
-     * @returns {String} - String describing each size's entry.
-     */
-    *strIterator() {
-        const sizes = [];
-        for (let ii in this.leaderList) { sizes.push(ii); }
-        sizes.sort((a, b) => parseInt(a) - parseInt(b));
-        for (let ii of sizes) {
-            yield `Board size - ${ii}x${ii}: ${this.leaderList[ii].min}:${this.leaderList[ii].sec.toString()
-                .padStart(2, '0')} min. by ${this.leaderList[ii].nick}`;
-        }
+    fetchScores(callback) {
+        fetch(`${this.host}/${this.getApiPath}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Process the retrieved data
+                callback(null, data)
+            })
+            .catch(error => {
+                // Handle any errors
+                callback(error, null)
+            });
     }
 }
 
@@ -193,10 +162,9 @@ class StickyShiftKey {
 // ----------------------------------------------------------------
 //   App's Main code
 // ----------------------------------------------------------------
-
 let appData = {
     minesweeper: null,
-    leaderboard: new LeaderBoard(),
+    leaderboard: new LeaderBoard(GAMEHOST),
     nick: '',
     modalTitle: $('#feedbackTitle')[0],
     modalMsg: $('#feedbackBody')[0],
@@ -236,20 +204,26 @@ function notifyWin(size, mines, time) {
     let [min, sec] = time.split(":").map((v) => parseInt(v)), title, msg;
     const unit = min > 1 ? 'minutes' : min === 1 ? 'minute' : 'seconds';
     if (min === 0) { time = sec; }
-    const highScore = appData.leaderboard.setScore(size, min, sec, appData.nick);
-    if (highScore) {
-        title = getTemplate('#higherScoreHeader');
-        msg = getTemplate('#higherScoreMsg')
-            .replace(/{size}/g, size)
-            .replace(/{time}/g, time)
-            .replace(/{unit}/g, unit);
-    } else {
-        title = getTemplate('#youWinHeader');
-        msg = getTemplate('#youWinMsg')
-            .replace(/{time}/g, time)
-            .replace(/{unit}/g, unit);
-    }
-    popModalUp(title, msg);
+    appData.leaderboard.setScore(
+        size, min, sec, appData.nick, (err, data) => {
+            if (err || data.err) {
+                title = getTemplate('#errHeader');
+                msg = getTemplate('#errPhoningMsg')
+                    .replace(/{err}/g, err ? err : data.err);
+            } else if (data.accepted) {
+                title = getTemplate('#higherScoreHeader');
+                msg = getTemplate('#higherScoreMsg')
+                    .replace(/{size}/g, size)
+                    .replace(/{time}/g, time)
+                    .replace(/{unit}/g, unit);
+            } else {
+                title = getTemplate('#youWinHeader');
+                msg = getTemplate('#youWinMsg')
+                    .replace(/{time}/g, time)
+                    .replace(/{unit}/g, unit);
+            }
+            popModalUp(title, msg);
+        });
 }
 
 /**
@@ -425,11 +399,9 @@ $(function () {
     appData.$backToReg.show().css('visibility', 'visible');
     // get nickname provided by the registration page
     appData.nick = decodeURIComponent(location.hash.substring(1));
-    console.log("from hash", appData.nick);
     if (appData.nick == '') {
         // try from the current_user element (Django mode)
         appData.nick = document.querySelector('#current_user').innerHTML;
-        console.log("from #current_user", appData.nick);
     }
     if (appData.nick !== '') {
         // if nick on the hash, save nick to the local storage, clear the hash
