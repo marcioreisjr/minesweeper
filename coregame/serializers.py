@@ -5,4 +5,4 @@ from .models import GameScoring
 class GameScoringSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameScoring
-        fields = ['id', 'player', 'timing', 'board_size']
+        fields = ["id", "player", "timing", "board_size"]

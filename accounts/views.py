@@ -40,13 +40,11 @@ def user_signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            usename = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            password_confirmation = form.cleaned_data['password_confirmation']
+            usename = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            password_confirmation = form.cleaned_data["password_confirmation"]
             if password == password_confirmation:
-                user = User.objects.create_user(
-                    usename,
-                    password=password)
+                user = User.objects.create_user(usename, password=password)
                 login(request, user)
                 return redirect("play")
             else:
@@ -72,20 +70,24 @@ def user_change_pwd(request):
         form = UpdatePassForm(request.POST)
         if form.is_valid():
             user = request.user
-            password = form.cleaned_data['password']
-            new_password = form.cleaned_data['new_password']
-            password_confirmation = form.cleaned_data['password_confirmation']
+            password = form.cleaned_data["password"]
+            new_password = form.cleaned_data["new_password"]
+            password_confirmation = form.cleaned_data["password_confirmation"]
             if user.check_password(password):
                 if new_password == password_confirmation:
                     user.set_password(new_password)
                     user.save()
-                    return render(request, "coregame/play.html", context={
-                        "show_badge": {
-                            "msg": "Successfully updated the password", }
-                    })
+                    return render(
+                        request,
+                        "coregame/play.html",
+                        context={
+                            "show_badge": {
+                                "msg": "Successfully updated the password",
+                            }
+                        },
+                    )
                 else:
-                    context["show_badge"] = {
-                        "msg": "The passwords do not match"}
+                    context["show_badge"] = {"msg": "The passwords do not match"}
             else:
                 context["show_badge"] = {"msg": "Invalid credentials"}
         else:

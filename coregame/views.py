@@ -24,16 +24,18 @@ def get_scores(request):
     for score in scores:
         if score.board_size not in ALLOWED_SIZES:
             continue
-        out.append({
-            "player": score.player.username,
-            "timing": score.timing,
-            "board_size": score.board_size,
-        })
+        out.append(
+            {
+                "player": score.player.username,
+                "timing": score.timing,
+                "board_size": score.board_size,
+            }
+        )
     return Response(out)
 
 
 @login_required
-@api_view(['GET'])
+@api_view(["GET"])
 def set_score(request, score):
     data = None
     new_entry = False

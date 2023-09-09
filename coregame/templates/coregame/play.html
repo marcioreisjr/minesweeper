@@ -6,96 +6,122 @@ App's HTML code.
 
 September 06, 2022 by Marcio Reis Jr.
 -->
-
 {% load static %}
-
 {% block navbar %}
-<div class="d-flex justify-items-start">
-    <div class="ml-3"><a href="{% url 'logout' %}">Logout</a></div>
-    <div class="ml-3"><a href="{% url 'user_change_pwd' %}">Change password</a></div>
-    <div class="ml-3"><a href="{% url 'delete' %}">Delete the player</a></div>
-</div>
+    <div class="d-flex justify-items-start">
+        <div class="ml-3">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <div class="ml-3">
+            <a href="{% url 'user_change_pwd' %}">Change password</a>
+        </div>
+        <div class="ml-3">
+            <a href="{% url 'delete' %}">Delete the player</a>
+        </div>
+    </div>
 {% endblock navbar %}
-
 {% block header %}
-<div class="row">
-    <div class="col"></div>
-    <div class="col h1 my-1 my-lg-2 title align-items-center">Minesweeper</div>
-    <div class="col d-flex justify-content-end my-4"></div>
-</div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col h1 my-1 my-lg-2 title align-items-center">Minesweeper</div>
+        <div class="col d-flex justify-content-end my-4"></div>
+    </div>
 {% endblock header %}
-
 {% block main %}
-<!-- Mines count / Time count -->
-<div id="current_user">{{ player }}</div>
-<div class="d-flex initially-out gray-group">
-    <div class="d-flex flex-column flex-md-row h5 col-6 align-items-center">
-        <div class="d-flex justify-content-center col-6">
-            <span class="p-0 space-to-info font-weight-bold">Size:</span>
-            <span id="size-display">7</span>
+    <!-- Mines count / Time count -->
+    <div id="current_user">{{ player }}</div>
+    <div class="d-flex initially-out gray-group">
+        <div class="d-flex flex-column flex-md-row h5 col-6 align-items-center">
+            <div class="d-flex justify-content-center col-6">
+                <span class="p-0 space-to-info font-weight-bold">Size:</span>
+                <span id="size-display">7</span>
+            </div>
+            <div class="d-flex justify-content-center col-6">
+                <span class="p-0 space-to-info font-weight-bold">Mines:</span>
+                <span id="mines-counter">8</span>
+            </div>
         </div>
-        <div class="d-flex justify-content-center col-6">
-            <span class="p-0 space-to-info font-weight-bold">Mines:</span>
-            <span id="mines-counter">8</span>
-        </div>
-    </div>
-    <div class="d-flex flex-column flex-md-row h5 col-6 align-items-center">
-        <div class="d-flex justify-content-center col-6">
-            <span class="p-0 space-to-info font-weight-bold">Nick:</span>
-            <span id="nick-id"></span>
-        </div>
-        <div class="d-flex justify-content-center col-6">
-            <span class="p-0 space-to-info font-weight-bold">Time:</span>
-            <span id="time-counter">0:00</span>
-        </div>
-    </div>
-</div>
-<!-- Buttons -->
-<div class="mt-3 mb-4 row justify-content-center initially-out">
-    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-        <button type="button" id="start-button" class="btn border btn-std-color bar-button" data-toggle="tooltip"
-            data-placement="top" title="Click on a board cell to start">Restart</button>
-        <button type="button" id="leaderBrd-button-id" class="btn border btn-std-color bar-button">Leaderboard</button>
-        <button type="button" id="rules-button-id" class="btn border btn-std-color bar-button">Rules</button>
-        <div class="btn-group dropright" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle border btn-std-color bar-button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Size
-            </button>
-            <div class="dropdown-menu bg-secondary" id="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item text-light bg-secondary" id="sm-select-id" href="#">Small - 7x7</a>
-                <a class="dropdown-item text-light bg-secondary too-small-2-play" id="md-select-id" href="#">Medium -
-                    10x10</a>
-                <a class="dropdown-item text-light bg-secondary d-none d-md-block" id="lg-select-id" href="#">Large -
-                    12x12</a>
-                <a class="dropdown-item text-light bg-secondary d-none d-xl-block" id="xl-select-id" href="#">X-Large -
-                    15x15</a>
-                <a class="dropdown-item text-light bg-secondary d-none d-xl-block" id="hg-select-id" href="#">Huge -
-                    20x20</a>
+        <div class="d-flex flex-column flex-md-row h5 col-6 align-items-center">
+            <div class="d-flex justify-content-center col-6">
+                <span class="p-0 space-to-info font-weight-bold">Nick:</span>
+                <span id="nick-id"></span>
+            </div>
+            <div class="d-flex justify-content-center col-6">
+                <span class="p-0 space-to-info font-weight-bold">Time:</span>
+                <span id="time-counter">0:00</span>
             </div>
         </div>
     </div>
-</div>
-<!-- Board body (dynamically load) -->
-<div class="initially-out">
-    <table class="row justify-content-center mb-4">
-        <tbody id="board-body"></tbody>
-    </table>
-    <div class="row justify-content-center">
-        <button id="desktop-help-id" class="btn platModeBtn">
-            <p class="platModeBtn">'Shift + click' to flag cells</p>
-            <p class="platModeBtn">~ Desktop Mode ~</p>
-        </button>
-        <button id="mobile-help-id" class="btn platModeBtn">
-            <p class="platModeBtn">Double-tap on a cell to reveal it</p>
-            <p class="platModeBtn">~ Mobile Mode ~</p>
-        </button>
+    <!-- Buttons -->
+    <div class="mt-3 mb-4 row justify-content-center initially-out">
+        <div class="btn-group"
+             role="group"
+             aria-label="Button group with nested dropdown">
+            <button type="button"
+                    id="start-button"
+                    class="btn border btn-std-color bar-button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Click on a board cell to start">Restart</button>
+            <button type="button"
+                    id="leaderBrd-button-id"
+                    class="btn border btn-std-color bar-button">Leaderboard</button>
+            <button type="button"
+                    id="rules-button-id"
+                    class="btn border btn-std-color bar-button">Rules</button>
+            <div class="btn-group dropright" role="group">
+                <button id="btnGroupDrop1"
+                        type="button"
+                        class="btn dropdown-toggle border btn-std-color bar-button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">Size</button>
+                <div class="dropdown-menu bg-secondary"
+                     id="dropdown-menu"
+                     aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item text-light bg-secondary"
+                       id="sm-select-id"
+                       href="#">Small - 7x7</a>
+                    <a class="dropdown-item text-light bg-secondary too-small-2-play"
+                       id="md-select-id"
+                       href="#">Medium -
+                    10x10</a>
+                    <a class="dropdown-item text-light bg-secondary d-none d-md-block"
+                       id="lg-select-id"
+                       href="#">Large -
+                    12x12</a>
+                    <a class="dropdown-item text-light bg-secondary d-none d-xl-block"
+                       id="xl-select-id"
+                       href="#">X-Large -
+                    15x15</a>
+                    <a class="dropdown-item text-light bg-secondary d-none d-xl-block"
+                       id="hg-select-id"
+                       href="#">Huge -
+                    20x20</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    <!-- Board body (dynamically load) -->
+    <div class="initially-out">
+        <table class="row justify-content-center mb-4">
+            <tbody id="board-body">
+            </tbody>
+        </table>
+        <div class="row justify-content-center">
+            <button id="desktop-help-id" class="btn platModeBtn">
+                <p class="platModeBtn">'Shift + click' to flag cells</p>
+                <p class="platModeBtn">~ Desktop Mode ~</p>
+            </button>
+            <button id="mobile-help-id" class="btn platModeBtn">
+                <p class="platModeBtn">Double-tap on a cell to reveal it</p>
+                <p class="platModeBtn">~ Mobile Mode ~</p>
+            </button>
+        </div>
+    </div>
 {% endblock main %}
-
 {% block scriptblock %}
-<script src="{% static 'js/cells.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/minesweeper.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/main.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/cells.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/minesweeper.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/main.js' %}" type="text/javascript"></script>
 {% endblock scriptblock %}
