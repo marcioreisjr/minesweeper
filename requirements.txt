@@ -4,6 +4,8 @@ click==8.1.7
 colorama==0.4.6
 cssbeautifier==1.14.9
 Django==4.2.4
+django-crispy-forms==2.0
+djangorestframework==3.14.0
 djlint==1.32.1
 EditorConfig==0.12.3
 flake8==6.1.0
@@ -18,6 +20,7 @@ pathspec==0.11.2
 platformdirs==3.10.0
 pycodestyle==2.11.0
 pyflakes==3.1.0
+pytz==2023.3.post1
 PyYAML==6.0.1
 regex==2023.8.8
 six==1.16.0
