@@ -243,10 +243,11 @@ function showLeaderboard() {
     let msg;
     appData.leaderboard.fetchScores((err, data) => {
         if (err) {
-            msg = getTemplate(`<h5>{err}</h5>`);
+            msg = getTemplate('#errPhoningMsg').replace(/{err}/g, err);
         } else if (!data.length) {
             msg = getTemplate('#be1StWinner');
         } else {
+            data.sort((a, b) => a.board_size - b.board_size);
             msg = "<p>";
             for (let item of data) {
                 const bs = item.board_size;
