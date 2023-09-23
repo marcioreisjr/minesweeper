@@ -26,6 +26,7 @@ def redirect_to_home(request):
 urlpatterns = [
     path("", redirect_to_home, name="home"),
     path("admin/", admin.site.urls),
-    path("coregame/", include("coregame.urls")),
+    path("coregame/play/", include("coregame.urls")),
+    path("coregame/scores/", include("coregame.api_urls")),
     path("accounts/", include("accounts.urls")),
 ]

@@ -23,9 +23,33 @@ class LeaderBoard {
      */
     constructor(host) {
         this.host = host;
-        this.getApiPath = 'coregame/get_scores';
-        this.setApiPath = 'coregame/set_score';
+        this.getApiPath = 'coregame/scores';
+        this.setApiPath = 'coregame/scores';
     }
+
+
+    /**
+     * Return the CSRF token the server had provided.
+     *
+     * @param {string} name Name of the csrf token
+     * @returns
+     */
+    static getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
 
     /**
      * Set a new score for a given board size and save on the database.
@@ -41,17 +65,24 @@ class LeaderBoard {
      */
     setScore(size, minutes, seconds, nick, callback) {
         const jData = JSON.stringify({
-            board_size: parseInt(size),
+            // board_size: parseInt(size),
             player: nick,
-            timing: (parseInt(minutes) * 60) + parseInt(seconds)
+            timing: (parseInt(minutes) * 60) + parseInt(seconds),
         })
-        fetch(`${this.host}/${this.setApiPath}/${jData}/`,{
-            method: 'GET',
+        const setApi = `${this.host}/${this.setApiPath}/${size}/`;
+        fetch(setApi, {
+            method: 'PUT',
             headers: {
+                "X-CSRFToken": LeaderBoard.getCookie("csrftoken"),
+                "Accept": "application/json",
                 'Content-Type': 'application/json',
             },
+            body: jData,
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status == 200) return response.json();
+                throw Error(response["statusText"]);
+            })
             .then(data => {
                 // Process the retrieved data
                 callback(null, data)
@@ -81,8 +112,9 @@ class LeaderBoard {
         })
             .then(response => response.json())
             .then(data => {
+                if (data["err"] != null) return callback(data["err"], null);
                 // Process the retrieved data
-                callback(null, data)
+                callback(null, data["scores"])
             })
             .catch(error => {
                 // Handle any errors
