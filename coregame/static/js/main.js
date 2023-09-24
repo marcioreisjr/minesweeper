@@ -12,6 +12,30 @@ const MAX_VISIBLE_NICK_LEN = 10;
 const getTemplate = tmplName => document.querySelector(tmplName).innerHTML;
 const GAMEHOST = `http://${window.location.host}`;
 
+
+/**
+ * Return the CSRF token the server had provided.
+ *
+ * @param {string} name Name of the csrf token
+ * @returns
+ */
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
 /**
 * Class to keep track of the leaderboard and saving to a local storage.
 */
@@ -29,29 +53,6 @@ class LeaderBoard {
 
 
     /**
-     * Return the CSRF token the server had provided.
-     *
-     * @param {string} name Name of the csrf token
-     * @returns
-     */
-    static getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-
-    /**
      * Set a new score for a given board size and save on the database.
      *
      * @param {Number} size - Size of the board.
@@ -65,15 +66,16 @@ class LeaderBoard {
      */
     setScore(size, minutes, seconds, nick, callback) {
         const jData = JSON.stringify({
-            // board_size: parseInt(size),
+            board_size: parseInt(size),
             player: nick,
             timing: (parseInt(minutes) * 60) + parseInt(seconds),
         })
-        const setApi = `${this.host}/${this.setApiPath}/${size}/`;
-        fetch(setApi, {
+        const apiURL = `${this.host}/${this.setApiPath}/${size}/`;
+
+        fetch(apiURL, {
             method: 'PUT',
             headers: {
-                "X-CSRFToken": LeaderBoard.getCookie("csrftoken"),
+                "X-CSRFToken": getCookie("csrftoken"),
                 "Accept": "application/json",
                 'Content-Type': 'application/json',
             },

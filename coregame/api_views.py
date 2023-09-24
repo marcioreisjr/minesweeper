@@ -1,3 +1,4 @@
+from urllib.request import Request
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,11 @@ ALLOWED_SIZES = [7, 10, 12, 15, 20]
 
 
 @api_view(["GET"])
-def get_scores(request):
+def get_scores(request: Request) -> JsonResponse:
+    '''
+    Return a list of scores, a dict with player name, timing in seconds and
+    board size.
+    '''
     out = []
     scores = GameScoring.objects.all()
     for score in scores:
@@ -27,13 +32,15 @@ def get_scores(request):
 
 @login_required
 @api_view(["PUT"])
-def set_score(request, board):
+def set_score(request: Request, board: int) -> JsonResponse:
     """
     Update the best score if the newer timing is smaller than the best timing
     on the database and return the "accepted" attribute set to True, otherwise
     return the "accepted" attribute set to False.
+
+    Returns a dict {"err": None, "accepted": False}. Provide any error message
+    in case of having any error.
     """
-    print("on set_score")
     if board not in ALLOWED_SIZES:
         return JsonResponse({"err:": "Invalid board size", "accepted": False},
                             status=400)
