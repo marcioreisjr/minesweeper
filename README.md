@@ -11,7 +11,7 @@ This app is a full-stack application to showcase the technologies listed below. 
 
 ## Installation
 This system requires Python 3.10+ to be installed on your host system before proceeding with the app’s installation. Here are the steps to follow:
-- [ ] TODO: Download the source code from .
+- Download the source code from https://gitlab.com/galvanize9283031/minesweeper-m1/-/releases.
 - Decompress the image and navigate to the uncompressed directory.
 - Create a virtual environment by running `python -m venv .venv`.
 - Activate the virtual environment by running `source .venv/bin/activate`.
