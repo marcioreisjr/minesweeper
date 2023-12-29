@@ -17,15 +17,16 @@ program.
 ## Installation
 This system requires Python 3.10+ to be installed on your host system before
 proceeding with the app’s installation. Here are the steps to follow:
-- Download the source code from https://github.com/marcioreisjr/minesweeper/releases.
+- Download the source code from <a href="https://github.com/marcioreisjr/minesweeper/releases"
+target="_blank">GitHub</a>.
 - Decompress the image and navigate to the uncompressed directory.
 - Create a virtual environment by running `python -m venv .venv`.
 - Activate the virtual environment by running `source .venv/bin/activate`.
 - Install the required packages by running `pip install -r requirements.txt`.
 - Initialize the database with `python manage.py migrate`.
 - Start the system by running `python manage.py runserver`.
-- Finally, open your browser and navigate to http://localhost:8000/ to access
-the application.
+- Finally, open your browser and navigate to <a href="http://localhost:8000/"
+target="_blank">localhost:8000</a> to access the application.
 
 ## Design
 The architecture of this system is composed of three subsystems:
@@ -39,6 +40,6 @@ with the remaining subsystems, and uses `vanilla JavaScript` to implement the
 functionality and `bootstrap` for styling and responsiveness.
 
 ## Sample
-This [Minesweeper](https://marciorj.pythonanywhere.com/accounts/signup/) app
-might be running on a free server. Please, be patient if it takes a few seconds
-to load the page.
+This <a href="https://marciorj.pythonanywhere.com/accounts/signup/"
+target="_blank">Minesweeper</a> app might be running on a free server. Please,
+be patient if it takes a few seconds to load the page.
