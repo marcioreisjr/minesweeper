@@ -5,9 +5,9 @@ grid while avoiding mines, using numerical clues to determine the location of
 safe cells. This implementation allows multi-players to compete for the best
 scores.
 
-This app is a full-stack application to showcase the technologies listed below.
-It is a personal project for the Galvanize Software Engineering Immersive
-program.
+This (MVP - Minimum Viable Product) app is a full-stack application to showcase
+the technologies listed below. It is a personal project for the Galvanize
+Software Engineering Immersive program.
 - Django / REST Framework / Templates
 - SQLite3
 - Bootstrap
