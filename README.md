@@ -1,4 +1,4 @@
-# Minesweeper - The classical computer game to find mines hidden across a grid.
+# [Minesweeper - The classical computer game to find mines hidden across a grid.](https://marciorj.pythonanywhere.com/accounts/signup/)
 
 Minesweeper is a puzzle video game where the player uncovers hidden tiles on a
 grid while avoiding mines, using numerical clues to determine the location of
