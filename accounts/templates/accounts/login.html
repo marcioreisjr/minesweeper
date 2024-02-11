@@ -14,13 +14,17 @@
 {% endblock header %}
 {% block main %}
     <div class="d-flex justify-content-center">
-        <form action="" method="post" class="game-form">
+        <form action="" method="post" class="game-form col-10 col-md-4">
             {% csrf_token %}
             <!-- {{ form.as_p }} -->
             <div class="form-group">{{ form.username }}</div>
             <div class="form-group">{{ form.password }}</div>
-            <div class="form-group">
-                <button class="btn border border-light btn-std-color">Login</button>
+            <div class="form-group d-flex justify-content-between">
+                <div><button class="btn border border-light btn-std-color">Login</button></div>
+                <div>
+                    <div>Forgot your password? <a class="pwd-reset-id" href="{% url 'password-reset' %}">Reset</a></div>
+                    <div>Need an account? <a class="pwd-reset-id" href="{% url 'signup' %}">Signup</a></div>
+                </div>
             </div>
         </form>
     </div>

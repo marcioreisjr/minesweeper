@@ -58,6 +58,15 @@ nav a:hover {
 .game-form {
     box-shadow: black 0 0 10px;
     padding: 1rem;
+    border-radius: var(--theme-border-radius);
+}
+
+.pwd-reset-id {
+    /* background-color: rgba(255, 255, 255, .3); */
+    /* border-radius: var(--theme-border-radius); */
+    /* padding: 0.05rem; */
+    text-decoration: none;
+    color: darkblue;
 }
 
 #current_user {
@@ -96,6 +105,19 @@ nav a:hover {
     height: 100%;
     opacity : 0.1;
     z-index: -1;
+}
+
+.user-notice {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: var(--theme-border-radius);
+    padding: 0.5rem;
+}
+
+.small-error {
+    margin-top: 0.5rem;
+    border-radius: var(--theme-border-radius);
+    background-color: lightcoral;
+    padding: 0.5rem;
 }
 
 /**

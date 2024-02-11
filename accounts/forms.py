@@ -1,4 +1,11 @@
 from django import forms
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordChangeForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
+
 
 
 class LoginForm(forms.Form):
@@ -29,6 +36,15 @@ class SignUpForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Username",
+            }
+        ),
+    )
+    email = forms.EmailField(
+        max_length=150,
+        widget=forms.EmailInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Email (for password recovery)",
             }
         ),
     )
@@ -77,6 +93,17 @@ class UpdatePassForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Confirm password",
+            }
+        ),
+    )
+
+class ReqResetPassForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=150,
+        widget=forms.EmailInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Email",
             }
         ),
     )

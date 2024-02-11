@@ -43,3 +43,9 @@ functionality and `bootstrap` for styling and responsiveness.
 This <a href="https://marciorj.pythonanywhere.com/accounts/signup/"
 target="_blank">Minesweeper</a> app might be running on a free server. Please,
 be patient if it takes a few seconds to load the page.
+
+## New Features
+### Password Recovery
+- It is now possible to recover the password of an account;
+- The user will receive an email with a link to reset the password;
+- Currently, the email is sent to a file, but it can be configured to be sent to the user's email.
