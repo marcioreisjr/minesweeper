@@ -128,12 +128,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom settings for password reset
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'xxx@gmail.com'
-EMAIL_HOST_PASSWORD = 'xxx'
 # EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'zzz@gmail.com'
+EMAIL_HOST_PASSWORD = 'zzz'
+
+# EMAIL_PORT = 465
+EMAIL_HOST_AUTHENTICATION = 'OAuth2'
