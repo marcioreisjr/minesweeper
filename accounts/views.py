@@ -51,13 +51,20 @@ def user_signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            usename = form.cleaned_data["username"]
+            username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
             password_confirmation = form.cleaned_data["password_confirmation"]
             email = form.cleaned_data["email"]
-            if password == password_confirmation:
+            if (
+                User.objects.filter(username=username).exists()
+                or User.objects.filter(email=email).exists()
+            ):
+                context["show_badge"] = {
+                    "msg": "The user or password already exists"}
+            elif password == password_confirmation:
                 user = User.objects.create_user(
-                    usename, password=password, email=email)
+                    username, password=password, email=email
+                )
                 login(request, user)
                 return redirect("play")
             else:
