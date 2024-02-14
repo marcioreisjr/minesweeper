@@ -11,10 +11,10 @@ ALLOWED_SIZES = [7, 10, 12, 15, 20]
 
 @api_view(["GET"])
 def get_scores(request: Request) -> JsonResponse:
-    '''
+    """
     Return a list of scores, a dict with player name, timing in seconds and
     board size.
-    '''
+    """
     out = []
     scores = GameScoring.objects.all()
     for score in scores:
@@ -42,17 +42,20 @@ def set_score(request: Request, board: int) -> JsonResponse:
     in case of having any error.
     """
     if board not in ALLOWED_SIZES:
-        return JsonResponse({"err:": "Invalid board size", "accepted": False},
-                            status=400)
+        return JsonResponse(
+            {"err:": "Invalid board size", "accepted": False}, status=400
+        )
     try:
         content = json.loads(request.body)
         score = GameScoring.objects.get(board_size=board)
     except GameScoring.DoesNotExist:
-        GameScoring.objects.create(**{
-            "timing": content["timing"],
-            "board_size": board,
-            "player_id": request.user.id,
-        })
+        GameScoring.objects.create(
+            **{
+                "timing": content["timing"],
+                "board_size": board,
+                "player_id": request.user.id,
+            }
+        )
         return JsonResponse({"err": None, "accepted": True}, status=200)
     except json.JSONDecodeError:
         return JsonResponse({"err": "Bad Request", "accepted": False},
