@@ -1,11 +1,9 @@
 from django import forms
+from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
-    AuthenticationForm,
-    PasswordChangeForm,
     PasswordResetForm,
     SetPasswordForm,
 )
-
 
 
 class LoginForm(forms.Form):
@@ -97,6 +95,7 @@ class UpdatePassForm(forms.Form):
         ),
     )
 
+
 class ReqResetPassForm(PasswordResetForm):
     email = forms.EmailField(
         max_length=150,
@@ -104,6 +103,32 @@ class ReqResetPassForm(PasswordResetForm):
             attrs={
                 "class": "form-control",
                 "placeholder": "Email",
+            }
+        ),
+    )
+
+
+class ReqSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="",
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control my-3",
+                "placeholder": "New password",
+            }
+        ),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label="",
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control mb-3",
+                "placeholder": "New password confirmation",
             }
         ),
     )

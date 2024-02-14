@@ -5,12 +5,12 @@ from accounts.views import (
     user_signup,
     user_delete,
     user_change_pwd,
+    MinePasswordResetConfirmView,
 )
 from accounts.forms import ReqResetPassForm
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
-    PasswordResetConfirmView,
     PasswordResetCompleteView,
 )
 
@@ -22,17 +22,23 @@ urlpatterns = [
     path("user_change_pwd/", user_change_pwd, name="user_change_pwd"),
     path(
         "password-reset/",
-        PasswordResetView.as_view(template_name="accounts/password_reset.html", form_class=ReqResetPassForm),
+        PasswordResetView.as_view(
+            template_name="accounts/password_reset.html",
+            html_email_template_name="accounts/password_reset_email.html",
+            form_class=ReqResetPassForm,
+        ),
         name="password-reset",
     ),
     path(
         "password-reset/done/",
-        PasswordResetDoneView.as_view(template_name="accounts/password_reset_done.html"),
+        PasswordResetDoneView.as_view(
+            template_name="accounts/password_reset_done.html"
+        ),
         name="password_reset_done",
     ),
     path(
         "password-reset-confirm/<uidb64>/<token>/",
-        PasswordResetConfirmView.as_view(
+        MinePasswordResetConfirmView.as_view(
             template_name="accounts/password_reset_confirm.html"
         ),
         name="password_reset_confirm",
