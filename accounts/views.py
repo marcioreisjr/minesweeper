@@ -1,10 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth import authenticate, login, logout
-from accounts.forms import LoginForm, SignUpForm, UpdatePassForm, ReqResetPassForm
+from accounts.forms import (
+    LoginForm,
+    SignUpForm,
+    UpdatePassForm,
+    ReqResetPassForm,
+    ReqSetPasswordForm,
+)
 from django.contrib.auth.models import User
 
 # Create your views here.
+
+
+class MinePasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = ReqSetPasswordForm
 
 
 def user_login(request):
@@ -45,7 +56,8 @@ def user_signup(request):
             password_confirmation = form.cleaned_data["password_confirmation"]
             email = form.cleaned_data["email"]
             if password == password_confirmation:
-                user = User.objects.create_user(usename, password=password, email=email)
+                user = User.objects.create_user(
+                    usename, password=password, email=email)
                 login(request, user)
                 return redirect("play")
             else:
@@ -63,6 +75,7 @@ def user_delete(request):
         return redirect("signup")
     return render(request, "accounts/delete.html", None)
 
+
 def password_reset(request):
     context = {}
     if request.method == "POST":
@@ -71,6 +84,7 @@ def password_reset(request):
         form = ReqResetPassForm()
     context["form"] = form
     return render(request, "accounts/password_reset.html", context)
+
 
 @login_required
 def user_change_pwd(request):
@@ -96,7 +110,8 @@ def user_change_pwd(request):
                         },
                     )
                 else:
-                    context["show_badge"] = {"msg": "The passwords do not match"}
+                    context["show_badge"] = {
+                        "msg": "The passwords do not match"}
             else:
                 context["show_badge"] = {"msg": "Invalid credentials"}
         else:

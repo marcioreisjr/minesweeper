@@ -116,7 +116,7 @@ nav a:hover {
 .small-error {
     margin-top: 0.5rem;
     border-radius: var(--theme-border-radius);
-    background-color: lightcoral;
+    background-color: rgb(231, 52, 52);
     padding: 0.5rem;
 }
 

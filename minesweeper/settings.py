@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-um%afv9gz_r24*0gf%&cve%o(5wxpv$nvozi8#v@^@^7fqwejo"
+SECRET_KEY = \
+    "django-insecure-um%afv9gz_r24*0gf%&cve%o(5wxpv$nvozi8#v@^@^7fqwejo"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,13 +94,16 @@ AUTH_PASSWORD_VALIDATORS = [
         + "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." + "MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation." +
+        "MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." + "CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." +
+        "CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." + "NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation." +
+        "NumericPasswordValidator",
     },
 ]
 
@@ -128,12 +132,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom settings for password reset
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-# EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'zzz@gmail.com'
-EMAIL_HOST_PASSWORD = 'zzz'
+EMAIL_HOST_USER = "zzz@gmail.com"
+EMAIL_HOST_PASSWORD = "zzz"
 # EMAIL_USE_SSL = True
