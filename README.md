@@ -25,8 +25,8 @@ target="_blank">GitHub</a>.
 - Install the required packages by running `pip install -r requirements.txt`.
 - Initialize the database with `python manage.py migrate`.
 - Start the system by running `python manage.py runserver`.
-- Finally, open your browser and navigate to <a href="http://localhost:8000/"
-target="_blank">localhost:8000</a> to access the application.
+- Finally, open your browser and navigate to <a href="https://marciorj.pythonanywhere.com/accounts/signup/"
+ target="_blank">localhost:8000</a> to access the application.
 
 ## Design
 The architecture of this system is composed of three subsystems:
