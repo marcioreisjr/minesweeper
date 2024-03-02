@@ -188,6 +188,7 @@ nav a:hover {
 tbody {
     box-shadow: var(--theme-box-shadow);
     padding: 5px;
+    border-radius: var(--theme-border-radius);
 }
 
 /* App's buttons and global styling */
