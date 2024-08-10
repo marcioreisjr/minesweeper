@@ -10,7 +10,7 @@ const BACK_TO_REG_URL = "/accounts/logout";
 const DEFAULT_BOARD_SIZE = 7;
 const MAX_VISIBLE_NICK_LEN = 10;
 const getTemplate = tmplName => document.querySelector(tmplName).innerHTML;
-const GAMEHOST = `http://${window.location.host}`;
+const GAMEHOST = `https://${window.location.host}`;
 
 
 /**

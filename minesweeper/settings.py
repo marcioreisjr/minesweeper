@@ -14,20 +14,21 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+STATIC_ROOT="/home/marciorj/sites/minesweeper/static"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = \
-    "django-insecure-um%afv9gz_r24*0gf%&cve%o(5wxpv$nvozi8#v@^@^7fqwejo"
+with open("/home/marciorj/sites/secret_key.txt") as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["marciorj.pythonanywhere.com"]
+CSRF_COOKIE_SECURE=True
+SESSION_COOKIE_SECURE=True
 
 # Application definition
 
