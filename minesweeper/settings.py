@@ -26,7 +26,7 @@ with open("/home/marciorj/sites/secret_key.txt") as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["marciorj.pythonanywhere.com"]
+ALLOWED_HOSTS = ["marciorj.pythonanywhere.com", "cdn.jsdelivr.net"]
 CSRF_COOKIE_SECURE=True
 SESSION_COOKIE_SECURE=True
 
